@@ -46,6 +46,7 @@
           </el-form-item>
         </div>
       <el-alert v-if="loginError" title="送出失敗" type="error" description="請檢查所有必填欄位是否為空或是電子郵件格式錯誤。" />
+      <el-alert v-else-if="sentForm" title="送出成功" type="success"/>
   </div>
 </template>
 
@@ -71,11 +72,13 @@ const loginRules = {
 };
 
 const loginError = ref(false);
+const sentForm = ref(false);
 
 const handleSubmit = (e: Event) => {
 	e.preventDefault();
 	// Reset error message
 	loginError.value = false;
+  sentForm.value = true;
 
 	// Validation logic
 	if (!loginData.value.accountName || !loginData.value.password || !loginData.value.name) {
@@ -105,6 +108,8 @@ const handleClearForm = (e: Event) => {
 	loginData.value.name = "";
 	value1.value = "";
 	value.value = "";
+  sentForm.value = false;
+  loginError.value = false;
 };
 
 const size = ref<"default" | "large" | "small">("default");
